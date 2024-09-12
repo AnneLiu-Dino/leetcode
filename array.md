@@ -72,3 +72,70 @@ class Solution:
 
 
 ```
+
+#### ==209.长度最小的子数组==
+
+原本想用快慢指针去控制这个搜索窗口，但是需要用到if；但显然if无法满足持续往后移动的需求。
+**学到了while的使用**
+
+
+```python
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        min_size = math.inf
+        total = 0
+        flag = 0
+
+        for i in range(len(nums)):
+            total += nums[i]
+            while(total>=target):
+                min_size = min(min_size, i - flag + 1)
+                total -= nums[flag]
+                flag += 1
+        
+        return 0 if min_size == math.inf else min_size
+
+```
+
+#### ==59.spiral-matrix-ii==
+
+这道题要多一点耐心，按照卡尔的思路，得写个运行规律，才能把代码盘出来。
+
+我觉得关键点是每一圈x,y的值与offset的关系分析明白，就能手搓出来。
+
+
+![image-20240913091027880](/Users/liuyan/Master/leetcode/array.assets/image-20240913091027880.png)
+
+
+```python
+class Solution:
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        matrix = [[0] * n for _ in range(n)]
+        start_x, start_y = 0,0
+        cycle = n // 2
+        count = 1
+
+        for offset in range(1, cycle+1):
+            for y in range(start_y, n-offset):
+                matrix[start_x][y] = count
+                count +=1
+            for x in range(start_x, n-offset):
+                matrix[x][n-offset] = count
+                count +=1
+            for y in range(n-offset, offset -1, -1):
+                matrix[n-offset][y] = count
+                count +=1
+            for x in range(n-offset,offset -1, -1):
+                matrix[x][start_y] = count
+                count +=1
+            start_x += 1
+            start_y += 1
+        
+        if(n%2 !=0):
+            mid = n//2
+            matrix[mid][mid] = count
+        
+        return matrix
+```
+#### ==前缀和==
+思路很妙啊，把每一步累加保存下来。
