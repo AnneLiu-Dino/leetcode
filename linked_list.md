@@ -45,3 +45,32 @@ class Solution:
         return point_slow
 
 ```
+#### ==24. 两两交换链表中的节点==
+
+**本来计划使用3个指针，但是无法实现，看了卡尔的讲解，原来是需要暂存4个节点，代码中node1，2，3这样再去写代码，思路会非常清晰**
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummy_node = ListNode(next = head)
+        cur = dummy_node
+
+        while(cur.next and cur.next.next):
+            node1 = cur.next
+            node2 = node1.next
+            node3 = node2.next
+
+            cur.next = node2
+            node2.next = node1
+            node1.next = node3
+
+            cur = node1
+        
+        return dummy_node.next
+
+```
