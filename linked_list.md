@@ -74,3 +74,24 @@ class Solution:
         return dummy_node.next
 
 ```
+#### ==19.删除链表倒数第N个节点==
+
+**看了卡尔的思路讲解后，就能把代码写出来啦，对于fast先后，然后在fast、slow同步走，真的有意思，这样就能很好的控制到要删除的节点。另外，sample code中用for循环去控制fast先走的步骤比我写的while更清晰。**
+
+```python
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        dummy_node = ListNode(next = head)
+        fast = dummy_node
+        slow = dummy_node
+        while(n>=0):
+            fast = fast.next
+            n-=1
+        #for i in range(n+1):
+        #    fast = fast.next
+        while(fast):
+            fast = fast.next
+            slow = slow.next
+        slow.next = slow.next.next
+        return dummy_node.next
+```
